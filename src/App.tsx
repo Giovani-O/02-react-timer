@@ -1,17 +1,16 @@
 import { ThemeProvider } from "styled-components"; // Provedor de temas
-import { Button } from "./components/Button";
 import { defaultTheme } from "./styles/themes/default"; // O tema em sí
 import { GlobalStyle } from "./styles/global";
+import { BrowserRouter } from 'react-router-dom'; // Context provider, deve envolver todos os outros componentes
+import { Router } from "./Router"; // Componente de rotas
 
 export function App() {
   return (
     // componente de temas
     <ThemeProvider theme={defaultTheme}>
-      <Button variant="primary" />
-      <Button variant="secondary" />
-      <Button variant="success" />
-      <Button variant="danger" />
-      <Button />
+      <BrowserRouter>
+        <Router />
+      </BrowserRouter>
 
       <GlobalStyle />
     </ThemeProvider>
