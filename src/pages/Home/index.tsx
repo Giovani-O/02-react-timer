@@ -34,7 +34,7 @@ export function Home() {
     reset();
   }
 
-  const task = watch ('task')
+  const task = watch ('task');
   const isSubmitDisabled = !task;
 
   return (
