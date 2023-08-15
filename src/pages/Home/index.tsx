@@ -48,17 +48,23 @@ export function Home() {
   // ou seja, ele vai executar uma instrução quando o componente for renderizado
   // e também quando uma variável especifica for atualizada. Esses comportamentos podem ser manipulados
   useEffect(() => {
+    let interval: number
+
     if (activeCycle) {
-      setInterval(() => {
+      interval = setInterval(() => {
         setAmountSecondsPassed(
           differenceInSeconds(new Date(), activeCycle.startDate),
         )
       }, 1000)
     }
+
+    // exclui intervalos que naão são mais utilizados
+    return () => {
+      clearInterval(interval)
+    }
   }, [activeCycle])
 
   function handleCreateNewCycle(data: NewCycleFormData) {
-
     const id = String(new Date().getTime());
 
     const newCycle: Cycle = {
@@ -68,8 +74,9 @@ export function Home() {
       startDate: new Date(),
     }
     
-    setCycles(state => [...state, newCycle]);
+    setCycles(state => [...state, newCycle])
     setActiveCycleId(id)
+    setAmountSecondsPassed(0)
 
     reset();
   }
@@ -83,6 +90,12 @@ export function Home() {
   // padStart insere caracteres no início de uma string até ela alcançar o comprimento determinado
   const minutes = String(minutesAmount).padStart(2, '0');
   const seconds = String(secondsAmount).padStart(2, '0');
+
+  useEffect(() => {
+    if (activeCycle) {
+      document.title = `${minutes}:${seconds}`
+    }
+  }, [minutes, seconds, activeCycle])
 
   const task = watch ('task');
   const isSubmitDisabled = !task;
