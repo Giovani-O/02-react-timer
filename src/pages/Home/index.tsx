@@ -40,16 +40,19 @@ export function Home() {
   }); 
 
   // obtém métodos do useForm do React hook form
-  const {handleSubmit, watch, /*reset*/ } = newCycleForm
+  const {handleSubmit, watch, reset } = newCycleForm
 
-  
+  function handleCreateNewCycle(data: NewCycleFormData) {
+    createNewCycle(data)
+    reset()
+  }
 
   const task = watch ('task');
   const isSubmitDisabled = !task;
   
   return (
     <HomeContainer>
-      <form onSubmit={handleSubmit(createNewCycle)} action="">
+      <form onSubmit={handleSubmit(handleCreateNewCycle)} action="">
         {/* Provider do contexto */}
           <FormProvider {...newCycleForm}>
             <NewCycleForm />
@@ -57,7 +60,7 @@ export function Home() {
           <Countdown />
 
         {
-          activeCycle ? 
+          activeCycle && !activeCycle.finishedDate ? 
             (
               <StopCountdownButton type="button" onClick={interruptCurrentCycle}>
                 <HandPalm size={24} />

@@ -20,7 +20,7 @@ export function NewCycleForm() {
         type="text" 
         id="task" 
         placeholder="Dê um nome para o seu projeto"
-        disabled={!!activeCycle}
+        disabled={!!activeCycle && (!activeCycle.finishedDate && !activeCycle.interruptedDate)}
         list="task-suggestions"
         {...register('task')} // register recebe o nome do componente e retorna algumas funções
       />
@@ -40,7 +40,7 @@ export function NewCycleForm() {
         step={5}
         min={5}
         max={60}
-        disabled={!!activeCycle}
+        disabled={!!activeCycle && (!activeCycle.finishedDate && !activeCycle.interruptedDate)}
         {...register('minutesAmount', { valueAsNumber: true })}
       />
 
