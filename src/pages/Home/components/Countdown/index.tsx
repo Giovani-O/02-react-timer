@@ -1,18 +1,17 @@
-import { CountdownContainer, Separator } from "./styles"
-import { useEffect, useContext } from "react"
+import { CountdownContainer, Separator } from './styles'
+import { useEffect, useContext } from 'react'
 import { differenceInSeconds } from 'date-fns'
-import { CyclesContext } from "../../../../contexts/CyclesContext"
+import { CyclesContext } from '../../../../contexts/CyclesContext'
 
 export function Countdown() {
   // Usa o contexto, desconstruindo com todas as propriedades e funções
-  const { 
-    activeCycle, 
-    activeCycleId, 
-    markCurrentCycleAsFinished, 
-    amountSecondsPassed, 
-    setSecondsPassed
+  const {
+    activeCycle,
+    activeCycleId,
+    markCurrentCycleAsFinished,
+    amountSecondsPassed,
+    setSecondsPassed,
   } = useContext(CyclesContext)
-  
 
   const totalSeconds = activeCycle ? activeCycle.minutesAmount * 60 : 0
 
@@ -26,7 +25,7 @@ export function Countdown() {
     if (activeCycle) {
       interval = setInterval(() => {
         const secondsDifference = differenceInSeconds(
-          new Date(), 
+          new Date(),
           activeCycle.startDate,
         )
 
@@ -37,24 +36,29 @@ export function Countdown() {
         } else {
           setSecondsPassed(secondsDifference)
         }
-
       }, 1000)
     }
 
     return () => {
       clearInterval(interval)
     }
-  }, [activeCycle, totalSeconds, activeCycleId, markCurrentCycleAsFinished, setSecondsPassed])
+  }, [
+    activeCycle,
+    totalSeconds,
+    activeCycleId,
+    markCurrentCycleAsFinished,
+    setSecondsPassed,
+  ])
 
-  const currentSeconds = activeCycle ? totalSeconds - amountSecondsPassed : 0;
+  const currentSeconds = activeCycle ? totalSeconds - amountSecondsPassed : 0
 
-  const minutesAmount = Math.floor(currentSeconds / 60);
-  const secondsAmount = currentSeconds % 60;
+  const minutesAmount = Math.floor(currentSeconds / 60)
+  const secondsAmount = currentSeconds % 60
 
   // padStart insere caracteres no início de uma string até ela alcançar o comprimento determinado
-  const minutes = String(minutesAmount).padStart(2, '0');
-  const seconds = String(secondsAmount).padStart(2, '0');
-  
+  const minutes = String(minutesAmount).padStart(2, '0')
+  const seconds = String(secondsAmount).padStart(2, '0')
+
   // Altera o nome da página ao iniciar um ciclo
   useEffect(() => {
     if (activeCycle) {
